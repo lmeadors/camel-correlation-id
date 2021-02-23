@@ -7,26 +7,21 @@
        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-  <context:component-scan base-package="com.github.lmeadors"/>
+    <context:component-scan base-package="com.github.lmeadors"/>
 
-  <bean id="helloBean" class="com.github.lmeadors.HelloBean">
-      <property name="say" value="Hi from Camel"/>
-  </bean>
-
-  <camelContext xmlns="http://camel.apache.org/schema/spring">
-    <route>
-      <from uri="timer:foo?period=5000"/>
-      <doTry>
-        <to uri="bean:correlationIdOn"/>
-        <setBody>
-            <method ref="helloBean" method="hello"/>
-        </setBody>
-        <log message="The message contains ${body}"/>
-        <doFinally>
-          <to uri="bean:correlationIdOff"/>
-        </doFinally>
-      </doTry>
-    </route>
-  </camelContext>
+    <camelContext xmlns="http://camel.apache.org/schema/spring">
+        <route>
+            <from uri="timer:foo?period=5000"/>
+            <to uri="bean:correlationIdOn"/>
+            <to uri="bean:helloBean"/>
+            <doTry>
+                <log message="The message contains ${body}"/>
+                <log message="correlation id is currently: ${exchangeProperty[cid]}"/>
+                <doFinally>
+                    <to uri="bean:correlationIdOff"/>
+                </doFinally>
+            </doTry>
+        </route>
+    </camelContext>
 
 </beans>

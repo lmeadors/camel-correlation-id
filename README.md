@@ -1,11 +1,10 @@
-Camel Router Project for Spring-DM (OSGi)
-=========================================
+# Camel Router Project for Spring-DM (OSGi)
 
 To build this project use
 
     mvn install
 
-You can run this project using he following Maven goal:
+You can run this project using the following Maven goal:
 
     mvn camel:run
 
@@ -18,3 +17,6 @@ For more help see the Apache Camel documentation
 
     http://camel.apache.org/
 
+Need a debugger? I did - run this class in your IDE:
+
+    org.apache.camel.spring.Main
